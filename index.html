@@ -122,7 +122,8 @@
             }
 
             try {
-                const API_BASE = 'http://localhost:8080';
+                // Dynamically use the current domain (e.g., your Render domain or localhost)
+                const API_BASE = window.location.origin;
                 const response = await fetch(`${API_BASE}/shorten`, {
                     method: 'POST',
                     headers: {
