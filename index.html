@@ -55,8 +55,9 @@
                         class="text-slate-500 text-xs">(Optional)</span></label>
                 <div class="flex">
                     <span
-                        class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-slate-700 bg-slate-800 text-slate-400 text-sm">
-                        linkia.co/
+                        class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-slate-700 bg-slate-800 text-slate-400 text-sm"
+                        id="prefixDomain">
+                        tinylink-l69h.onrender.com/
                     </span>
                     <input type="text" id="customAlias" placeholder="myytvideo"
                         class="flex-1 w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-r-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-white placeholder-slate-500">
@@ -143,11 +144,8 @@
                     const alias = parts[parts.length - 1];
                     const localUrl = `${API_BASE}/` + alias;
 
-                    // Display string vs actual href link
-                    const displayUrl = `https://link069.in/` + alias;
-
                     shortUrlDisplay.href = localUrl;
-                    shortUrlDisplay.textContent = displayUrl;
+                    shortUrlDisplay.textContent = localUrl;
                     analyticsBtn.href = `${API_BASE}/analytics/` + alias;
                 } else {
                     errorResult.classList.remove('hidden');
@@ -165,13 +163,21 @@
         });
 
         document.getElementById('copyBtn').addEventListener('click', () => {
-            const shortUrl = document.getElementById('shortUrlDisplay').textContent;
+            const shortUrl = document.getElementById('shortUrlDisplay').href;
             navigator.clipboard.writeText(shortUrl);
             const originalText = document.getElementById('copyBtn').textContent;
             document.getElementById('copyBtn').textContent = 'Copied!';
             setTimeout(() => {
                 document.getElementById('copyBtn').textContent = 'Copy to Clipboard';
             }, 2000);
+        });
+
+        // Small aesthetics update on load so form isn't hardcoded 
+        document.addEventListener("DOMContentLoaded", () => {
+            const currentDomain = window.location.host;
+            if (currentDomain) {
+                document.getElementById('prefixDomain').textContent = currentDomain + '/';
+            }
         });
     </script>
 </body>
