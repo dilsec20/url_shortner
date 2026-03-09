@@ -143,8 +143,11 @@
                     const alias = parts[parts.length - 1];
                     const localUrl = `${API_BASE}/` + alias;
 
+                    // Display string vs actual href link
+                    const displayUrl = `https://tinylink.co/` + alias;
+
                     shortUrlDisplay.href = localUrl;
-                    shortUrlDisplay.textContent = localUrl;
+                    shortUrlDisplay.textContent = displayUrl;
                     analyticsBtn.href = `${API_BASE}/analytics/` + alias;
                 } else {
                     errorResult.classList.remove('hidden');
