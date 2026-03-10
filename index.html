@@ -123,8 +123,15 @@
             }
 
             try {
-                // Dynamically use the current domain (e.g., your Render domain or localhost)
-                const API_BASE = window.location.origin;
+                // Intelligent API Detection
+                // If we are testing on a different port locally (like VS Code Live Server 5500)
+                // then point directly to the C++ server on 8080.
+                // Otherwise (on Render), use the current window location.
+                let API_BASE = window.location.origin;
+                if (API_BASE.includes('localhost') || API_BASE.includes('127.0.0.1')) {
+                    API_BASE = 'http://localhost:8080';
+                }
+
                 const response = await fetch(`${API_BASE}/shorten`, {
                     method: 'POST',
                     headers: {
@@ -174,7 +181,11 @@
 
         // Small aesthetics update on load so form isn't hardcoded 
         document.addEventListener("DOMContentLoaded", () => {
-            const currentDomain = window.location.host;
+            let currentDomain = window.location.host;
+            // If local testing UI on 5500, spoof the 8080 port for aesthetics
+            if (currentDomain.includes('localhost') || currentDomain.includes('127.0.0.1')) {
+                currentDomain = "localhost:8080";
+            }
             if (currentDomain) {
                 document.getElementById('prefixDomain').textContent = currentDomain + '/';
             }
